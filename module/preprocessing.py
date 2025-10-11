@@ -16,6 +16,10 @@ def preprocessing(data, pixelmicrons, framerate, cutoff=[3, 9999], div_time_gap=
     data = data.astype(convert_dict)
     traj_indices = pd.unique(data['traj_idx'])
     total_states = sorted(data['state'].unique())
+
+    if len(data) == 0:
+        print("No data is available.")
+        
     if len(total_states) == 1:
         color_palette = ['cyan']
     else:
@@ -41,7 +45,7 @@ def preprocessing(data, pixelmicrons, framerate, cutoff=[3, 9999], div_time_gap=
     state_graph = nx.DiGraph()
     state_graph.add_nodes_from(total_states)
     state_graph.add_edges_from(product_states, count=0, freq=0)
-    
+   
     if len(total_states) > 1:
         state_changing_duration = {tuple(state): [] for state in product_states}
     else:
